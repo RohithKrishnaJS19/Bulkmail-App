@@ -2,12 +2,13 @@ const express = require("express")
 const nodemailer = require("nodemailer")
 const cors = require("cors")
 const mongoose = require("mongoose")
+require("dotenv").config()
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect("mongodb+srv://Rohith:1234@rohithcluster.qgpmwdu.mongodb.net/school?appName=RohithCluster")
+mongoose.connect(process.env.MONGO_URL)
 
 const passkey = mongoose.model("summa", {
     user: String,
@@ -33,7 +34,7 @@ app.post("/sendemail", function (req, res) {
                 for (var i = 0; i < email.length; i++) {
                     await transport.sendMail(
                         {
-                            from: "chatgptbhaga@gmail.com",
+                            from: userdata,
                             to: email[i],
                             subject: "Creating a Bulk main app",
                             text: msg
